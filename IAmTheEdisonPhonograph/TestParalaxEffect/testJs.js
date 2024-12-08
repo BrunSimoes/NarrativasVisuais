@@ -73,4 +73,5 @@ function updateDisplay(e) {
     console.log(px,py);
 
     updateParalax();
-  }
+}
+

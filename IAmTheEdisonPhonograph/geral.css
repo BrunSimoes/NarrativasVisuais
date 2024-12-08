@@ -5,6 +5,7 @@
 
 body{
   background-color: black;
+  position: relative;
 }
 
 /*//////////////////////////////////////////////////// LOADING SCREEN */
@@ -291,15 +292,27 @@ body{
   position: absolute;
 }
 
+.rectPoster{
+  aspect-ratio: 71 / 103;
+}
+
+.losaPoster{
+  aspect-ratio: 713 / 617;
+}
+
 main{
   width:100vw;
   height: 100vh;
 
-  top:0;
-  height:0;
+  left:50%;
+  bottom:0%;
 
   z-index: 50;
   position: absolute;
+
+  overflow: hidden;
+
+  transform: translate(-50%,0%);
 }
 
 /*PHONOGRAPH*/
@@ -331,7 +344,6 @@ main{
   z-index: 40;
 }
 
-
 h1{
  font-family: 'BebasNeue', sans-serif;
  font-weight: lighter;
@@ -355,6 +367,40 @@ h3{
  height: 100px;; 
  background-color: aliceblue;
 }
+
+.ATest{
+  animation: movement 10s ease-in-out infinite;
+}
+
+/*///////////////////////////////////////////////////////////// ANIMATIONS */
+@keyframes movement {
+  0%{
+    transform: translatey(0.4%) translatex(-0.6%) rotatex(5deg) rotatey(-1.5deg);
+  }
+
+  14% {
+     transform: translatey(0.2%) translatex(0.4%) rotatex(-5deg) rotatey(1deg);
+  }
+  28% {
+    transform: translatey(-0.2%) translatex(-0.2%) rotatex(3deg) rotatey(1deg);
+  }
+  42% {
+    transform: translatey(-0.2%) translatex(-0.2%) rotatex(-4deg) rotatey(-1.5deg);
+  }
+  57%{
+    transform: translatey(0.6%) translatex(-0.6%) rotatex(7deg) rotatey(1deg);
+  }
+  71%{
+    transform: translatey(-0.1%) translatex(0.2%) rotatex(1deg) rotatey(1deg);
+  }
+  85%{
+    transform: translatey(-0.4%) translatex(-0.2%) rotatex(3deg) rotatey(1.5deg);
+  }
+  100%{
+    transform: translatey(0.4%) translatex(-0.6%) rotatex(5deg) rotatey(-1.5deg);
+  }
+}
+
 
 /*///////////////////////////////////////////////////////////// OTHERS */
 

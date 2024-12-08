@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const loadImages = document.querySelectorAll(".LoadImage");
   const loadImagesSize = loadImages.length + (nAllNoiseImageEffect - 2) + 1;
 
+  const phonograph = document.querySelector("#Phonograph");
+
   //Resulta pk estou a carregar o stylesheet antes
   //Para ser mais correto deveria carregar para a cache usando o working service
   //Que ainda não entendi como funciona....
@@ -140,6 +142,8 @@ fetchAndAttachStylesheet('/font.css');
 
                 dActiveElements();
                 updateActive();
+                updateActiveElements();
+
                 console.log(elementosAtivos);
                 console.log(`Contador ajustado: ${countRolls}`);
             });
@@ -175,21 +179,55 @@ fetchAndAttachStylesheet('/font.css');
         if(noiseImgs[(count+1)%nAllNoiseImageEffect].classList.contains("hidden")) noiseImgs[(count+1)%nAllNoiseImageEffect].classList.remove("hidden");
       }
 
-      function updateRotation(params) {
+      function updateRotation(element) {
         
       }
 
-      function updatePos(params) {
+      function updatePos(element) {
         
       }
 
-      function updateVisibility(params) {
+      function updateVisibility(element) {
         
       }
 
-      function updateAnimation(params) {
+      function updateAnimation(element) {
         
       }
+
+      function updateActiveElements(){
+        let Phonorect = phonograph.getBoundingClientRect();
+        //remover add new Elements
+
+        //Update Ative Elements 
+        elementosAtivos.forEach(element => {
+            const A = getkey(element.getAttribute("scrolling"),"A-");
+            const S = getkey(element.getAttribute("scrolling"),"S-");
+
+            if(countRolls>=A && countRolls<=S){
+                const EPB = getkey(element.getAttribute("scrolling"),"EPB-");
+                const EPL = getkey(element.getAttribute("scrolling"),"EPL-");
+                const W = getkey(element.getAttribute("scrolling"),"W-");
+                const R = getkey(element.getAttribute("scrolling"),"R-");
+
+                element.style.width = mapping(countRolls,A,S,0,W) + "px"; 
+                element.style.transform = `translate(-50%,50%) rotate(${mapping(countRolls,A,S,0,R)}deg)`; 
+                //element.style.transform = `scale(${mapping(countRolls,A,S,0,1)}) translate(-50%, 50%)`; 
+                element.style.left = mapping(countRolls,A,S,(Phonorect.left+Phonorect.width/2)*100/window.innerWidth, EPL)+"%";
+                element.style.bottom = mapping(countRolls,A,S,(window.innerHeight-Phonorect.bottom+Phonorect.height*0.75)*100/window.innerHeight, EPB)+"%";  
+                //element.style.bottom = mapping(countRolls,A,S,(window.innerHeight-Phonorect.bottom)*100/window.innerHeight, EPB)+"%";  
+                
+                //console.log(mapping(countRolls,A,S,Phonorect.left*100/window.innerWidth,EPL)+"%");
+
+                console.log((window.innerHeight-Phonorect.bottom+Phonorect.height/2)*100/window.innerHeight);
+                console.log(Phonorect.bottom);
+                console.log(mapping(countRolls,A,S,0,W));
+            }
+            //console.log(Phonorect.top-Phonorect.height);
+        });
+
+
+      } 
 
       function getkey(input, r){
         const startIndex = input.indexOf(r);
@@ -217,6 +255,7 @@ fetchAndAttachStylesheet('/font.css');
 
              if(countRolls >= A && countRolls <= D){
                  console.log("Adicionado à Verificação");
+                 element.classList.remove("hidden");
                  elementosAtivos.push(element);
              }else{
                 console.log("Não Adicionado à Verificação");
@@ -239,6 +278,7 @@ fetchAndAttachStylesheet('/font.css');
                 console.log("removido à Verificação");
                 const index = elementosAtivos.indexOf(element);
                 if (index > -1) { 
+                    element.classList.add("hidden");
                     elementosAtivos.splice(index, 1); 
                 }
             }else{
@@ -275,6 +315,21 @@ fetchAndAttachStylesheet('/font.css');
       function mapping(num, minNum, maxNum, minOut, maxOut){
         return minOut + (maxOut - minOut) * (num - minNum) / (maxNum - minNum);
       }
+
+      //cubic Bezier powerd by Chatgpt 
+        function cubicBezier(t, p0, p1, p2, p3) {
+            const u = 1 - t;
+            const tt = t * t;
+            const uu = u * u;
+            const uuu = uu * u;
+            const ttt = tt * t;
+        
+            // Fórmula da curva Bézier cúbica
+            const x = uuu * p0.x + 3 * uu * t * p1.x + 3 * u * tt * p2.x + ttt * p3.x;
+            const y = uuu * p0.y + 3 * uu * t * p1.y + 3 * u * tt * p2.y + ttt * p3.y;
+        
+            return { x, y };
+        }
 
 })
 
