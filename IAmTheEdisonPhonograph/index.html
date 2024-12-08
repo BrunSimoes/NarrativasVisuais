@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="geral.css">
 </head>
 <body>
+    <script src = "index.js"></script>
     <script src = "loading.js"></script>
 
     <!-- Loadding Screen -->
@@ -26,59 +27,180 @@
 
     <!-- Background -->
     <div class = "background">
-        <img class = "LoadImage image" data-src="Imgs/background/Vitorian_wallpaper_NoLight_01.png" alt="Vitovian wallpaper"></img>
+        <!--<img class = "LoadImage image" data-src="Imgs/background/Vitorian_wallpaper_NoLight_01.png" alt="Vitovian wallpaper"></img> -->
+        <img class = "LoadImage image user-drag-none" id="bi" data-src="Imgs/test_assets/Fundo_Loja.jpg"  alt="Prateleira Loja"></img>
+    </div>    
+
+    <!-- Effects -->
+    <div class = "effect paralax" id="ligthEffect" value="-0.03">
+        <div class ="aux" >
+            <img class = "LoadImage image user-drag-none"  data-src="Imgs/effects/light/Vitorian_wallpaper_Light.png"  alt="Prateleira Loja"></img>
+        </div>
+    </div>    
+    <div class = "effect" id="noise">
+        <!--<img class = "LoadImage image" data-src="Imgs/background/Vitorian_wallpaper_NoLight_01.png" alt="Vitovian wallpaper"></img> -->
+        <img class = "LoadImage image user-drag-none"  data-src="Imgs/effects/noise/ezgif-frame-001.jpg"  alt="Prateleira Loja"></img>
+    </div>  
          
         <!-- Ambiente -->
-            <div>
-            <!-- Titulo -->
-            <div>
-
+        <div id="AssetsNStuff">
+            
+            <div class="textContent">
+                <div class="text shadow">
+                    <h3>
+                        <!-- Titulo -->
+                        I am the Edison 
+                    </h3>
+                    <h1>
+                        <!-- Titulo -->
+                        Phonograph!
+                    </h1>
+                </div>
             </div>
 
             <!-- Assets -->
-            <div>
-                <img class = "LoadImage image" data-src="Imgs/assets/vitrovian_table_01.png" alt="Vitovian table">
+                <!--Bancada-->
+                <div class="paralax" id="Bancada" value="0.00" >
+                 <div class ="aux" >
+                 <img class = "LoadImage image user-drag-none"  data-src="Imgs/test_assets/Bancada.png" alt="Bancada"></img>
+
+                 <!-- Phonograph -->
+                 <div id="Phonograph">
+                    <!--Main Part-->
+                    <img class = "LoadImage image user-drag-none shadow" data-src="Imgs/assets/Phonograph/Phonograph_P01.png" alt="Edison Phonograph">
+
+                    <!--Crank -->
+                    <div id="Crank" class="shadow">                        
+                        <div class="Handler_02">
+                            <img class = "LoadImage image Handle user-drag-none" id="Handle_01" data-src="Imgs/test_assets/Handle_01.png" alt="Edison Phonograph Crank">
+                            
+                            <div class="crank_01"> 
+                                <img class = "LoadImage image Handle user-drag-none" id="Handle_02" data-src="Imgs/test_assets/Handle_02.png" alt="Edison Phonograph Crank">
+                                
+                                <div class="Handler_01">
+                                    <img class = "LoadImage image Handle user-drag-none" id="Handle"    data-src="Imgs/test_assets/Handle_00.png" alt="Edison Phonograph Handle"> 
+                                    <img class = "LoadImage image Handle user-drag-none" id="Handle_03" data-src="Imgs/test_assets/Handle_03.png" alt="Edison Phonograph Crank">
+                                </div>           
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                </div>
+        </div>
+
+            <!--Edison -->
+            <div class="paralax" id="Edison" value="0.01">
+                <div class ="aux">
+                <img class = "LoadImage image shadow"  data-src="Imgs/test_assets/Edison_60.png" alt="Thomas Edison">
+                </div>
             </div>
-            <div>
-                <img class = "LoadImage image" data-src="Imgs/assets/Phonograph/Phonograph_P01.png" alt="Edison Phonograph">
-                <img class = "LoadImage image" data-src="Imgs/assets/Phonograph/Phonograph_P02.png" alt="Edison Phonograph Crank"> 
-                <img class = "LoadImage image" data-src="Imgs/assets/Phonograph/Phonograph_P03.png" alt="Edison Phonograph HAndle"> 
+
             </div>
-            </div>
+        </div>
 
         <!-- Poster Area-->
          <main>
             <!-- Poster 01 -->
-             <div>
-
+             <div class="getPoster rectPoster hidden" id="p_1"  scrolling="A-100 S-120 D-250 STP-P EPB-50 EPL-25">
+                 <img  class="LoadImage image shadow"  data-src="Imgs/posters/Poster_01.png" alt="">
              </div>
              <!-- Poster 02 -->
+             <div class="getPoster hidden" id="p_2"  scrolling="A-150 S-130 D-270 STP-P EPB-50 EPL-25">
+                 <div class="dummy"></div>
+             </div>
               <!-- Poster 03 -->
+             <div class="getPoster hidden" id="p_3"  scrolling="A-180 S-130 D-300 STP-P EPB-50 EPL-25">
+                <div class="dummy"></div>
+             </div>
                <!-- Poster 04 -->
+               <div class="getPoster hidden" id="p_4"  >
+                <div class="dummy"></div>
+               </div>
                 <!-- Poster 05 -->
+                <div class="getPoster hidden" id="p_5"  >
+                    <div class="dummy"></div>
+                </div>
                  <!-- Poster 06 -->
+                 <div class="getPoster hidden" id="p_6"  >
+                    <div class="dummy"></div>
+                 </div>
                   <!-- Poster 07 -->
+                  <div class="getPoster hidden" id="p_7"  >
+                    <div class="dummy"></div>
+                  </div>
                    <!-- Poster 08 -->
+                   <div class="getPoster hidden" id="p_8"  >
+                    <div class="dummy"></div>
+                   </div>
                     <!-- Poster 09 -->
+                    <div class="getPoster hidden" id="p_9"  >
+                        <div class="dummy"></div>
+                    </div>
                      <!-- Poster 10 -->
+                     <div class="getPoster hidden" id="p_10"  >
+                        <div class="dummy"></div>
+                     </div>
                       <!-- Poster 11 -->
+                      <div class="getPoster hidden" id="p_11"  >
+                        <div class="dummy"></div>
+                      </div>
                        <!-- Poster 12 -->
+                       <div class="getPoster hidden" id="p_12" >
+                        <div class="dummy"></div>
+                       </div>
                         <!-- Poster 13 -->
+                        <div class="getPoster hidden" id="p_13"  >
+                            <div class="dummy"></div>
+                        </div>
                          <!-- Poster 14 -->
+                         <div class="getPoster hidden" id="p_14"  >
+                            <div class="dummy"></div>
+                         </div>
                           <!-- Poster 15 -->
+                          <div class="getPoster hidden" id="p_15"  >
+                            <div class="dummy"></div>
+                          </div>
                            <!-- Poster 16 -->
+                           <div class="getPoster hidden" id="p_16"  > 
+                            <div class="dummy"></div>
+                           </div>
                             <!-- Poster 17 -->
+                            <div class="getPoster hidden" id="p_17"  scrolling="">
+                                <div class="dummy"></div>
+                            </div>
                              <!-- Poster 18 -->
+                             <div class="getPoster hidden" id="p_18"  scrolling="">
+                                <div class="dummy"></div>
+                             </div>
                               <!-- Poster 19 -->
+                              <div class="getPoster hidden" id="p_19"  scrolling="">
+                                <div class="dummy"></div>
+                              </div>
                                <!-- Poster 20 -->
+                               <div class="getPoster hidden" id="p_20"  scrolling="">
+                                <div class="dummy"></div>
+                               </div>
                                 <!-- Poster 21 -->
+                                <div class="getPoster hidden" id="p_21"  scrolling="">
+                                    <div class="dummy"></div>
+                                </div>
                                  <!-- Poster 22 -->
+                                 <div class="getPoster hidden" id="p_22"  scrolling="">
+                                    <div class="dummy"></div>
+                                 </div>
                                   <!-- Poster 23 -->
+                                  <div class="getPoster hidden" id="p_23"  scrolling="">
+                                    <div class="dummy"></div>
+                                  </div>
                                    <!-- Poster 24 -->
+                                   <div class="getPoster hidden" id="p_24"  scrolling="">
+                                    <div class="dummy"></div>
+                                   </div>
                                     <!-- Poster 25 -->
+                                    <div class="getPoster hidden" id="p_25"  scrolling="">
+                                        <div class="dummy"></div>
+                                    </div>
 
          </main>
-
-    </div>
 </body>
 </html>
