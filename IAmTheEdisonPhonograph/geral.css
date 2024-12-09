@@ -63,6 +63,8 @@ body{
   font-size: 3rem;
 }
 
+/*///////////////////////////////////////////////PROGRESS BAR*/
+
 .ProcessBar{
   width: 100%;
   height: 10px;
@@ -83,6 +85,40 @@ body{
  background-color: aliceblue;
 
  transition: width 0.3s ease;
+}
+
+.NarrativeProgress{
+ width: 100vw;
+ height: 10px;
+ margin-top: 10px;
+ margin-bottom: 10px;
+ 
+ display: flex;
+ justify-content: center;
+
+ position: fixed;
+
+ bottom: 0;
+ left: 0;
+
+ z-index: 45;
+}
+
+.NarrativeProgressBar{
+ width:100%;
+ max-width: 300px;
+
+ height: 100%;
+
+ box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ -webkit-box-sizing: border-box;
+ border: 2px solid white;
+}
+
+.NarrativeProgressBarFilling{
+  height: 100%;
+  background-color: white;
 }
 
 
@@ -300,6 +336,10 @@ body{
   aspect-ratio: 713 / 617;
 }
 
+.roundPoster{
+  aspect-ratio: 509 / 665;
+}
+
 main{
   width:100vw;
   height: 100vh;
@@ -375,7 +415,7 @@ h3{
 /*///////////////////////////////////////////////////////////// ANIMATIONS */
 @keyframes movement {
   0%{
-    transform: translatey(0.4%) translatex(-0.6%) rotatex(5deg) rotatey(-1.5deg);
+    transform: translatey(1%) translatex(-0.6%) rotatex(5deg) rotatey(-1.5deg);
   }
 
   14% {
@@ -388,7 +428,7 @@ h3{
     transform: translatey(-0.2%) translatex(-0.2%) rotatex(-4deg) rotatey(-1.5deg);
   }
   57%{
-    transform: translatey(0.6%) translatex(-0.6%) rotatex(7deg) rotatey(1deg);
+    transform: translatey(0.9%) translatex(-0.6%) rotatex(7deg) rotatey(1deg);
   }
   71%{
     transform: translatey(-0.1%) translatex(0.2%) rotatex(1deg) rotatey(1deg);
@@ -397,7 +437,7 @@ h3{
     transform: translatey(-0.4%) translatex(-0.2%) rotatex(3deg) rotatey(1.5deg);
   }
   100%{
-    transform: translatey(0.4%) translatex(-0.6%) rotatex(5deg) rotatey(-1.5deg);
+    transform: translatey(1%) translatex(-0.6%) rotatex(5deg) rotatey(-1.5deg);
   }
 }
 

@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   const phonograph = document.querySelector("#Phonograph");
 
+  const progessBarN =  document.querySelector(".NarrativeProgressBarFilling");
+  
+
   //Resulta pk estou a carregar o stylesheet antes
   //Para ser mais correto deveria carregar para a cache usando o working service
   //Que ainda não entendi como funciona....
@@ -144,6 +147,8 @@ fetchAndAttachStylesheet('/font.css');
                 updateActive();
                 updateActiveElements();
 
+                progessBarN.style.width = `${mapping(countRolls,0,1000,0,100)}%`;
+
                 console.log(elementosAtivos);
                 console.log(`Contador ajustado: ${countRolls}`);
             });
@@ -210,18 +215,44 @@ fetchAndAttachStylesheet('/font.css');
                 const W = getkey(element.getAttribute("scrolling"),"W-");
                 const R = getkey(element.getAttribute("scrolling"),"R-");
 
+                const D0 = [getkey(element.getAttribute("scrolling"),"DW0-"),getkey(element.getAttribute("scrolling"),"DH0-")];
+                const D1 = [getkey(element.getAttribute("scrolling"),"DW1-"),getkey(element.getAttribute("scrolling"),"DH1-")];
+                
+                const P0 = [(Phonorect.left+Phonorect.width/2)*100/window.innerWidth,(window.innerHeight-Phonorect.bottom+Phonorect.height*0.75)*100/window.innerHeight];
+                const P1 = [P0[0]+D0[0],P0[1]+D0[1]];
+                const P2 = [P1[0]+D0[0],P1[1]+D1[1]];
+                const P3 = [EPL, EPB];
+
+                console.log(P0);
+                console.log(P1);
+                console.log(P2);
+                console.log(P3);
+
+                console.log(mapping(countRolls,A,S,0.,1.));
+
+                const PA = cubicBezier(mapping(countRolls,A,S,0.01,1.),P0,P1,P2,P3);
+         
+            
                 element.style.width = mapping(countRolls,A,S,0,W) + "px"; 
                 element.style.transform = `translate(-50%,50%) rotate(${mapping(countRolls,A,S,0,R)}deg)`; 
-                //element.style.transform = `scale(${mapping(countRolls,A,S,0,1)}) translate(-50%, 50%)`; 
-                element.style.left = mapping(countRolls,A,S,(Phonorect.left+Phonorect.width/2)*100/window.innerWidth, EPL)+"%";
-                element.style.bottom = mapping(countRolls,A,S,(window.innerHeight-Phonorect.bottom+Phonorect.height*0.75)*100/window.innerHeight, EPB)+"%";  
+                //element.style.transform = `scale (${mapping(countRolls,A,S,0,1)}) translate(-50%, 50%)`; 
+                //cubicBezier();
+
+                element.style.left = PA[0] + "%";
+                element.style.bottom =  PA[1] + "%";
+                
+                //element.style.left = mapping(countRolls,A,S,(Phonorect.left+Phonorect.width/2)*100/window.innerWidth, EPL)+"%";
+                //element.style.bottom = mapping(countRolls,A,S,(window.innerHeight-Phonorect.bottom+Phonorect.height*0.75)*100/window.innerHeight, EPB)+"%";  
                 //element.style.bottom = mapping(countRolls,A,S,(window.innerHeight-Phonorect.bottom)*100/window.innerHeight, EPB)+"%";  
                 
                 //console.log(mapping(countRolls,A,S,Phonorect.left*100/window.innerWidth,EPL)+"%");
+            }else {
+                const DI = getkey(element.getAttribute("scrolling"),"DI-");
+                const D = getkey(element.getAttribute("scrolling"),"D-");
+                const B = getkey(element.getAttribute("scrolling"),"B-");
 
-                console.log((window.innerHeight-Phonorect.bottom+Phonorect.height/2)*100/window.innerHeight);
-                console.log(Phonorect.bottom);
-                console.log(mapping(countRolls,A,S,0,W));
+                element.style.filter= `blur(${mapping(countRolls,DI,D,0,B)}px)`;
+                element.style.opacity = mapping(countRolls,DI,D,1,0);
             }
             //console.log(Phonorect.top-Phonorect.height);
         });
@@ -249,27 +280,31 @@ fetchAndAttachStylesheet('/font.css');
              const scrolling = element.getAttribute("scrolling");
 
             //Obter o ponto de entrada para surgir e o ponto de entrada para desaparecer
-             const A = getkey(scrolling,"A-");
-             //const S = getkey(scrolling,"S-");
-             const D = getkey(scrolling,"D-");
+            if(scrolling != null || scrolling != undefined){
+                    const A = getkey(scrolling,"A-");
+                    //const S = getkey(scrolling,"S-");
+                    const D = getkey(scrolling,"D-");
 
-             if(countRolls >= A && countRolls <= D){
-                 console.log("Adicionado à Verificação");
-                 element.classList.remove("hidden");
-                 elementosAtivos.push(element);
-             }else{
-                console.log("Não Adicionado à Verificação");
-             }
+                    if(countRolls >= A && countRolls <= D){
+                        console.log("Adicionado à Verificação");
+                        element.classList.remove("hidden");
+                        elementosAtivos.push(element);
+                    }else{
+                        console.log("Não Adicionado à Verificação");
+                    }
 
-        }else{
-            console.log("Error Falta de elemento");
-        }
+                }else{
+                    console.log("Error Falta de elemento");
+                }
+            }
       }
 
       function dActiveElements(){
         elementosAtivos.forEach(element => {
              const scrolling = element.getAttribute("scrolling");
              //Obter o ponto de entrada para surgir e o ponto de entrada para desaparecer
+             
+        if(scrolling != null || scrolling != undefined){
              const A = getkey(scrolling,"A-");
              //const S = getkey(scrolling,"S-");
              const D = getkey(scrolling,"D-");
@@ -284,6 +319,7 @@ fetchAndAttachStylesheet('/font.css');
             }else{
                console.log("Não Adicionado à Verificação");
             }
+        }
 
         });
       }
@@ -299,8 +335,8 @@ fetchAndAttachStylesheet('/font.css');
              console.log(`posI:${posI}`);
 
              if(posF < allElementos.length){
-                checkInside(document.querySelector(`#p_${posF}`));
                 console.log(document.querySelector(`#p_${posF}`));
+                checkInside(document.querySelector(`#p_${posF}`));
              }
              if(posI > 0){
                 checkInside(document.querySelector(`#p_${posI}`));
@@ -318,17 +354,17 @@ fetchAndAttachStylesheet('/font.css');
 
       //cubic Bezier powerd by Chatgpt 
         function cubicBezier(t, p0, p1, p2, p3) {
-            const u = 1 - t;
+            const u = 1. - t;
             const tt = t * t;
             const uu = u * u;
             const uuu = uu * u;
             const ttt = tt * t;
         
             // Fórmula da curva Bézier cúbica
-            const x = uuu * p0.x + 3 * uu * t * p1.x + 3 * u * tt * p2.x + ttt * p3.x;
-            const y = uuu * p0.y + 3 * uu * t * p1.y + 3 * u * tt * p2.y + ttt * p3.y;
+            const x = uuu * p0[0] + 3 * uu * t * p1[0] + 3 * u * tt * p2[0] + ttt * p3[0];
+            const y = uuu * p0[1] + 3 * uu * t * p1[1] + 3 * u * tt * p2[1] + ttt * p3[1];
         
-            return { x, y };
+            return [ x, y ];
         }
 
 })
