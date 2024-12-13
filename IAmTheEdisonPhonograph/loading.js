@@ -328,6 +328,15 @@ fetchAndAttachStylesheet('/font.css');
          if(elementosAtivos.length > 0){
              
              const posF = getkey(elementosAtivos[elementosAtivos.length-1].getAttribute("id"),"p_")+1;
+             
+
+             let posInfD = 0;
+
+             allElementos.forEach(element => {
+            
+             });
+
+             //Adicinar uma funcao para buscar o D mais a baixo dentro dos existentes
              const posI = getkey(elementosAtivos[0].getAttribute("id"),"p_")-1;
 
              console.log(`allElements:${allElementos.length}`);

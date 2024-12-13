@@ -158,6 +158,14 @@ body{
   mix-blend-mode: soft-light;
 }
 
+#stains{
+/*
+  mix-blend-mode: color-dodge;
+  filter:contrast(10);
+*/
+  opacity: 0;
+}
+
 #noise{
   mix-blend-mode: screen;
   opacity: 0.04;
@@ -409,11 +417,24 @@ h3{
 }
 
 .ATest{
-  animation: movement 10s ease-in-out infinite;
+  animation: movement_01 20s ease-in-out infinite;
 }
 
+.BTest{
+  animation: movement_02 20s ease-in-out infinite;
+}
+
+/* TESTE
+.ATest{
+  animation: saltos 1s ease-in-out infinite;
+}
+
+.BTest{
+  animation: saltos 1s ease-in-out infinite;
+}*/
+
 /*///////////////////////////////////////////////////////////// ANIMATIONS */
-@keyframes movement {
+@keyframes movement_01 {
   0%{
     transform: translatey(1%) translatex(-0.6%) rotatex(5deg) rotatey(-1.5deg);
   }
@@ -441,6 +462,90 @@ h3{
   }
 }
 
+
+@keyframes movement_02 {
+  0%{
+    transform: translatey(-0.8%) translatex(0.5%) rotatex(-3deg) rotatey(1.5deg);
+  }
+
+  14% {
+     transform: translatey(0.9%) translatex(-0.3%) rotatex(5deg) rotatey(-1deg);
+  }
+  28% {
+    transform: translatey(-0.2%) translatex(0.4%) rotatex(-4deg) rotatey(-1deg);
+  }
+  42% {
+    transform: translatey(-0.6%) translatex(-0.2%) rotatex(6deg) rotatey(1.5deg);
+  }
+  57%{
+    transform: translatey(0.4%) translatex(0.7%) rotatex(-5deg) rotatey(-1deg);
+  }
+  71%{
+    transform: translatey(-0.3%) translatex(-0.3%) rotatex(1deg) rotatey(-1deg);
+  }
+  85%{
+    transform: translatey(0.6%) translatex(0.4%) rotatex(3deg) rotatey(-1.5deg);
+  }
+  100%{
+    transform: translatey(-0.8%) translatex(0.6%) rotatex(-3deg) rotatey(1.5deg);
+  }
+}
+
+@keyframes movement_03 {
+  0%{
+    transform: translatey(1%) translatex(-0.6%) rotatex(5deg) rotatey(-1.5deg);
+  }
+
+  14% {
+     transform: translatey(0.2%) translatex(0.4%) rotatex(-5deg) rotatey(1deg);
+  }
+  28% {
+    transform: translatey(-0.2%) translatex(-0.2%) rotatex(3deg) rotatey(1deg);
+  }
+  42% {
+    transform: translatey(-0.2%) translatex(-0.2%) rotatex(-4deg) rotatey(-1.5deg);
+  }
+  57%{
+    transform: translatey(0.9%) translatex(-0.6%) rotatex(7deg) rotatey(1deg);
+  }
+  71%{
+    transform: translatey(-0.1%) translatex(0.2%) rotatex(1deg) rotatey(1deg);
+  }
+  85%{
+    transform: translatey(-0.4%) translatex(-0.2%) rotatex(3deg) rotatey(1.5deg);
+  }
+  100%{
+    transform: translatey(1%) translatex(-0.6%) rotatex(5deg) rotatey(-1.5deg);
+  }
+}
+
+@keyframes saltos {
+  0%{
+    transform: translatey(-0.5%)  rotatey(1.5deg);
+  }
+
+  14% {
+     transform: translatey(0%) rotatey(0deg);
+  }
+  28% {
+    transform: translatey(0%) rotatey(0deg);
+  }
+  42% {
+    transform: translatey(0%) rotatey(0deg);
+  }
+  57%{
+    transform: translatey(0.5%) rotatey(-1.5deg);
+  }
+  71%{
+    transform: translatey(0%) rotatey(0deg);
+  }
+  85%{
+    transform: translatey(0%) rotatey(0deg);
+  }
+  100%{
+    transform: translatey(-0.5%) rotatey(1.5deg);
+  }
+}
 
 /*///////////////////////////////////////////////////////////// OTHERS */
 
