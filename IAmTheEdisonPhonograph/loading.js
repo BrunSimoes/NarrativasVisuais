@@ -1,10 +1,14 @@
 document.addEventListener("DOMContentLoaded", ()=>{
-  console.log("hey");
+  //console.log("hey");
 
   let elementosAtivos = [];
 
   let allElementos = document.querySelectorAll(".getPoster");
   console.log(allElementos);
+
+  const crank_01 = document.querySelector(".crank_01");
+  //constructor(steps, elementCrank, maxHeight)
+  const crankC = new Manivela(14,crank_01,20);
 
   let elementoPos = 0; 
   let elementoF = 0;
@@ -83,7 +87,7 @@ fetchAndAttachStylesheet('/font.css');
   //console.log(noiseImgs);
 
   const paralaxElements = document.querySelectorAll(".paralax"); 
-  console.log(paralaxElements);
+  //console.log(paralaxElements);
   
 
   const progressPercent = document.getElementById("NumberPerc");
@@ -128,7 +132,7 @@ fetchAndAttachStylesheet('/font.css');
     console.log(handler);
 
     handler.addEventListener("mouseenter",(event) => {
-        console.log("estou em cima oh boi!");
+        //console.log("estou em cima oh boi!");
     });
 
 
@@ -146,6 +150,9 @@ fetchAndAttachStylesheet('/font.css');
                 dActiveElements();
                 updateActive();
                 updateActiveElements();
+                
+                crankC.updateCount(countRolls);
+                crankC.roda();
 
                 progessBarN.style.width = `${mapping(countRolls,0,1000,0,100)}%`;
 
@@ -223,12 +230,12 @@ fetchAndAttachStylesheet('/font.css');
                 const P2 = [P1[0]+D0[0],P1[1]+D1[1]];
                 const P3 = [EPL, EPB];
 
-                console.log(P0);
-                console.log(P1);
-                console.log(P2);
-                console.log(P3);
+                //console.log(P0);
+                //console.log(P1);
+                //console.log(P2);
+                //console.log(P3);
 
-                console.log(mapping(countRolls,A,S,0.,1.));
+                //console.log(mapping(countRolls,A,S,0.,1.));
 
                 const PA = cubicBezier(mapping(countRolls,A,S,0.01,1.),P0,P1,P2,P3);
          
@@ -268,7 +275,7 @@ fetchAndAttachStylesheet('/font.css');
 
             const number = parseInt(subString.split(" ")[0], 10);
 
-            console.log(number);
+            //console.log(number);
             return number;
         } else {
             console.log("String não encontrada.");
@@ -286,11 +293,11 @@ fetchAndAttachStylesheet('/font.css');
                     const D = getkey(scrolling,"D-");
 
                     if(countRolls >= A && countRolls <= D){
-                        console.log("Adicionado à Verificação");
+                        //console.log("Adicionado à Verificação");
                         element.classList.remove("hidden");
                         elementosAtivos.push(element);
                     }else{
-                        console.log("Não Adicionado à Verificação");
+                        //console.log("Não Adicionado à Verificação");
                     }
 
                 }else{
@@ -310,14 +317,14 @@ fetchAndAttachStylesheet('/font.css');
              const D = getkey(scrolling,"D-");
                 
             if(countRolls < A || countRolls > D){
-                console.log("removido à Verificação");
+                //console.log("removido à Verificação");
                 const index = elementosAtivos.indexOf(element);
                 if (index > -1) { 
                     element.classList.add("hidden");
                     elementosAtivos.splice(index, 1); 
                 }
             }else{
-               console.log("Não Adicionado à Verificação");
+               //console.log("Não Adicionado à Verificação");
             }
         }
 
@@ -329,14 +336,15 @@ fetchAndAttachStylesheet('/font.css');
              
              const posF = getkey(elementosAtivos[elementosAtivos.length-1].getAttribute("id"),"p_")+1;
              
-
+             /*
              let posInfD = 0;
 
+                          //Adicinar uma funcao para buscar o D mais a baixo dentro dos existentes
              allElementos.forEach(element => {
             
-             });
+             });*/
 
-             //Adicinar uma funcao para buscar o D mais a baixo dentro dos existentes
+
              const posI = getkey(elementosAtivos[0].getAttribute("id"),"p_")-1;
 
              console.log(`allElements:${allElementos.length}`);
@@ -357,9 +365,6 @@ fetchAndAttachStylesheet('/font.css');
 
       }
 
-      function mapping(num, minNum, maxNum, minOut, maxOut){
-        return minOut + (maxOut - minOut) * (num - minNum) / (maxNum - minNum);
-      }
 
       //cubic Bezier powerd by Chatgpt 
         function cubicBezier(t, p0, p1, p2, p3) {
@@ -377,5 +382,63 @@ fetchAndAttachStylesheet('/font.css');
         }
 
 })
+
+
+///////////////////////////CLASSES
+
+//////////////MANIVELA
+class Manivela {
+    constructor(steps, elementCrank, maxHeight) {
+      this.steps = steps; 
+      this.lastCrankH = 0;
+      this.countRolls = 0;
+      this.elementCrank  = elementCrank;
+      this.crankH = 0;
+      this.maxHeight = maxHeight; // 20
+    }
+      roda(){
+        this.crankH = getCircleX(mapping(this.countRolls,0,this.steps,0,Math.PI*2),this.maxHeight);
+
+        console.log("height:" + this.crankH);
+
+        //dar a ilusão de rotação da
+        if(this.crankH<=0){
+            this.elementCrank.style.transform = ` translate(0,-100%) rotateX(180deg)`;
+            console.log("bbbb");
+        }else if(this.crankH>0){
+            console.log("aaaa");
+            this.elementCrank.style.transform = `translate(0,0) rotateX(0deg)`;
+        }
+
+        //Verificar se a alanvaca esta a em cima ou em baixo depois da rotação
+        this.dir = (this.lastCrankH - this.crankH); 
+        console.log("crank:" + this.dir);
+
+        if(this.dir > 0){
+            this.elementCrank.style.zIndex = 0; 
+        }else{
+            this.elementCrank.style.zIndex = -5; 
+        }
+
+        //Atribuir last crankH
+        this.lastCrankH = this.crankH;
+        //tamanho da alanvanca
+        this.elementCrank.style.height = `${Math.abs(this.crankH)}%`;
+        
+      }
+
+      updateCount(countR){
+        this.countRolls = countR;
+      }
+  }
+
+      //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cos
+      function getCircleX(radians, radius) {
+        return Math.cos(radians) * radius;
+      }
+
+      function mapping(num, minNum, maxNum, minOut, maxOut){
+        return minOut + (maxOut - minOut) * (num - minNum) / (maxNum - minNum);
+      }
 
 

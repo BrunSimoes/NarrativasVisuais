@@ -285,10 +285,11 @@ body{
 
 #Handle_02{
   width: 5%;
+  /*
   height: auto;
-
-  /*top: 85%;
-  left: 75%;*/
+  top: 85%;
+  left: 75%;
+  */
 
   transform:translate(0,-12%);
 }
@@ -301,7 +302,7 @@ body{
 
   z-index: -5;
 
-  left: 5%;
+  left: 2%;
 }
 
 .Handler_01{
