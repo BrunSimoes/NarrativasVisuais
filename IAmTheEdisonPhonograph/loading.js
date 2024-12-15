@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
   let allElementos = document.querySelectorAll(".getPoster");
   console.log(allElementos);
 
+  elementosAtivos = allElementos;
+  console.log(elementosAtivos);
+
+
   const crank_01 = document.querySelector(".crank_01");
   //constructor(steps, elementCrank, maxHeight)
   const crankC = new Manivela(14,crank_01,20,0,42);
@@ -14,6 +18,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const b = document.querySelector("body");
   const oxiLigth = new oxiLuz(0.8,1.5, b ,60);
   oxiLigth.start();
+
+
 
   let elementoPos = 0; 
   let elementoF = 0;
@@ -174,7 +180,7 @@ fetchAndAttachStylesheet('/font.css');
 
     //SCROLL
             window.addEventListener("wheel", function(event) {
-                if (event.deltaY > 0) {
+                if (event.deltaY > 0 && countRolls-1<1080) {
                     countRolls += 1; // Incrementa para baixo
                     wheelDirection = 1;
                 } else if (event.deltaY < 0 && countRolls-1>0) {
@@ -182,14 +188,14 @@ fetchAndAttachStylesheet('/font.css');
                     wheelDirection = -1;
                 }
 
-                dActiveElements();
-                updateActive();
+                //dActiveElements();
+                //updateActive();
                 updateActiveElements();
                 
                 crankC.updateCount(countRolls);
                 crankC.roda();
 
-                progessBarN.style.width = `${mapping(countRolls,0,1000,0,100)}%`;
+                progessBarN.style.width = `${mapping(countRolls,0,1080,0,100)}%`;
                 //oxiLigth.oxilacao();
 
                 console.log(elementosAtivos);
@@ -247,10 +253,27 @@ fetchAndAttachStylesheet('/font.css');
         let Phonorect = phonograph.getBoundingClientRect();
         //remover add new Elements
 
+        //console.log(elementosAtivos);
+
         //Update Ative Elements 
         elementosAtivos.forEach(element => {
+            console.log("id : " + element.getAttribute("id"));
             const A = getkey(element.getAttribute("scrolling"),"A-");
             const S = getkey(element.getAttribute("scrolling"),"S-");
+
+            const DI = getkey(element.getAttribute("scrolling"),"DI-");
+            const D = getkey(element.getAttribute("scrolling"),"D-");
+            const B = getkey(element.getAttribute("scrolling"),"B-");
+
+            if(countRolls>=A && countRolls<=D){
+                  if(element.classList.contains("hidden")){
+                     element.classList.remove("hidden");
+                  }
+            }else{
+                if(!element.classList.contains("hidden")){
+                    element.classList.add("hidden");
+                }
+            }
 
             if(countRolls>=A && countRolls<=S){
                 const EPB = getkey(element.getAttribute("scrolling"),"EPB-");
@@ -290,10 +313,6 @@ fetchAndAttachStylesheet('/font.css');
                 
                 //console.log(mapping(countRolls,A,S,Phonorect.left*100/window.innerWidth,EPL)+"%");
             }else {
-                const DI = getkey(element.getAttribute("scrolling"),"DI-");
-                const D = getkey(element.getAttribute("scrolling"),"D-");
-                const B = getkey(element.getAttribute("scrolling"),"B-");
-
                 element.style.filter= `blur(${mapping(countRolls,DI,D,0,B)}px)`;
                 element.style.opacity = mapping(countRolls,DI,D,1,0);
             }
@@ -304,18 +323,25 @@ fetchAndAttachStylesheet('/font.css');
       } 
 
       function getkey(input, r){
-        const startIndex = input.indexOf(r);
-        if (startIndex !== -1) {
-            // Pega o trecho a partir do final de "numa-"
-            const subString = input.slice(startIndex + r.length);
+        if(input.length != 0 || r != null){
+            console.log(input);
+            const startIndex = input.indexOf(r);
+            if (startIndex !== -1) {
+                // Pega o trecho a partir do final de "numa-"
+                const subString = input.slice(startIndex + r.length);
 
-            const number = parseInt(subString.split(" ")[0], 10);
+                const number = parseInt(subString.split(" ")[0], 10);
 
-            //console.log(number);
-            return number;
-        } else {
-            console.log("String não encontrada.");
+                //console.log(number);
+                return number;
+            } else {
+                console.log("String não encontrada.");
+                return 0;
+            }
+        }else{
+            return 0;
         }
+
      }
 
       function checkInside(element){
@@ -425,11 +451,6 @@ fetchAndAttachStylesheet('/font.css');
             intervalB = setInterval(burrao, 60);
         }
 
-        function dTPulo() {
-            const delay = Math.floor(Math.random() * 10000) + 10000; // Novo atraso entre 500ms e 2000ms
-            setTimeout(dynamicTimeout, delay); // Configura o próximo timeout com o novo atraso
-            intervalB = setInterval(burrao, 60);
-        }
         
         function burrao(){
             if(countStain < 3){
