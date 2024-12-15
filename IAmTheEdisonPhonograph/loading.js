@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   //constructor(start, end, maxLevel, minLevel, elementLuz)
   const b = document.querySelector("body");
-  const oxiLigth = new oxiLuz(0.8,1.5, b ,60);
+  const oxiLigth = new oxiLuz(0.8,1.06, b ,60);
   oxiLigth.start();
 
 
@@ -176,7 +176,7 @@ fetchAndAttachStylesheet('/font.css');
         //console.log("estou em cima oh boi!");
     });
 
-
+    progessBarN.style.width = `${mapping(countRolls,0,1080,0,100)}%`;
 
     //SCROLL
             window.addEventListener("wheel", function(event) {

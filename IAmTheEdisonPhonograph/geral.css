@@ -187,6 +187,7 @@ body{
 
 #bi{
   min-height: 700px;
+  filter: brightness(1.35);
 }
 
 .image{
