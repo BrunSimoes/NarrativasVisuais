@@ -8,7 +8,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   const crank_01 = document.querySelector(".crank_01");
   //constructor(steps, elementCrank, maxHeight)
-  const crankC = new Manivela(14,crank_01,20);
+  const crankC = new Manivela(14,crank_01,20,0,42);
+
+  //constructor(start, end, maxLevel, minLevel, elementLuz)
+  const b = document.querySelector("body");
+  const oxiLigth = new oxiLuz(0.8,1.5, b ,60);
+  oxiLigth.start();
 
   let elementoPos = 0; 
   let elementoF = 0;
@@ -20,6 +25,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
   let count = 0;
   let countRolls = 0;
 
+  //Stain
+  let countStain = 0;
+  let intervalB;
+
   const noise = document.querySelector("#noise");
   let loadedImages = 0;
   
@@ -27,7 +36,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const zeroPad = (num, places) => String(num).padStart(places, '0');
   
   const loadImages = document.querySelectorAll(".LoadImage");
-  const loadImagesSize = loadImages.length + (nAllNoiseImageEffect - 2) + 1;
+  const loadImagesSize = loadImages.length + (nAllNoiseImageEffect - 2) + 4;
 
   const phonograph = document.querySelector("#Phonograph");
 
@@ -81,6 +90,32 @@ fetchAndAttachStylesheet('/font.css');
                 updateProgressBar();
             };
             noise.appendChild(childNoise);
+        }
+
+        //Corrigir futuramente este codigo a metro 
+        const stain = document.querySelector("#stains");  
+        let stainImg = [];
+        for(let i=1; i<=3; i++){
+            const childNoise = document.createElement("img");
+            childNoise.src = `Imgs/effects/stain/stain_effect_03_T_${zeroPad(i, 1)}.jpg`;
+            childNoise.alt = `stain${zeroPad(i, 1)}.jpg`;
+
+            childNoise.classList.add("hidden");
+            childNoise.classList.add("LoadImage");
+            childNoise.classList.add("image");
+            childNoise.classList.add("user-drag-none");
+
+            childNoise.onload = () => {
+                loadedImages++;
+                updateProgressBar();
+            };
+            childNoise.onerror = () => {
+                console.error(`Erro ao carregar a imagem: ${img.src}`);
+                loadedImages++;
+                updateProgressBar();
+            };
+            stain.appendChild(childNoise);
+            stainImg.push(childNoise);
         }
 
         const noiseImgs = document.querySelectorAll("#noise>img"); 
@@ -155,6 +190,7 @@ fetchAndAttachStylesheet('/font.css');
                 crankC.roda();
 
                 progessBarN.style.width = `${mapping(countRolls,0,1000,0,100)}%`;
+                //oxiLigth.oxilacao();
 
                 console.log(elementosAtivos);
                 console.log(`Contador ajustado: ${countRolls}`);
@@ -381,49 +417,125 @@ fetchAndAttachStylesheet('/font.css');
             return [ x, y ];
         }
 
+        dynamicTimeout();
+
+        function dynamicTimeout() {
+            const delay = Math.floor(Math.random() * 10000) + 10000; // Novo atraso entre 500ms e 2000ms
+            setTimeout(dynamicTimeout, delay); // Configura o próximo timeout com o novo atraso
+            intervalB = setInterval(burrao, 60);
+        }
+
+        function dTPulo() {
+            const delay = Math.floor(Math.random() * 10000) + 10000; // Novo atraso entre 500ms e 2000ms
+            setTimeout(dynamicTimeout, delay); // Configura o próximo timeout com o novo atraso
+            intervalB = setInterval(burrao, 60);
+        }
+        
+        function burrao(){
+            if(countStain < 3){
+                console.log(countStain);
+                if(!stainImg[countStain].classList.contains("hidden"))stainImg[countStain].classList.add("hidden");
+                if(stainImg[(countStain+1)%3].classList.contains("hidden"))stainImg[(countStain+1)%3].classList.remove("hidden");
+            }
+        
+            countStain++;
+        
+            if(countStain === 4){
+                countStain = 0;
+                if(!stainImg[0].classList.contains("hidden"))stainImg[countStain].classList.add("hidden");
+                clearInterval(intervalB);
+            }
+        } 
+
 })
 
 
+
 ///////////////////////////CLASSES
+class oxiLuz{
+    constructor(maxLevel, minLevel, elementLuz, taxaAtualizacao){
+       //this.start = start;
+       //this.end = end;
+
+       this.intervalOL;
+
+       this.maxLevel = maxLevel;
+       this.minLevel = minLevel;
+       this.atualExp = 1;  
+
+       this.vel = 0.01;
+
+       this.taxaAtualizacao = taxaAtualizacao;
+       this.elementLuz = elementLuz;
+    }
+
+    oxilacao(){ 
+       //this.prob
+       if(Math.random(0,1)<mapping(this.atualExp,this.minLevel,this.maxLevel,0,1)){
+          this.atualExp += this.vel; 
+       }else{
+          this.atualExp -= this.vel;
+       }
+
+       //console.log(this.elementLuz);
+
+       this.elementLuz.style.filter = `brightness(${this.atualExp})`;
+    }
+
+    start(){
+        this.intervalOL  = setInterval(this.oxilacao.bind(this), this.taxaAtualizacao);
+    }
+
+    end(){
+        clearInterval(this.intervalOL);
+    }
+}
+
 
 //////////////MANIVELA
 class Manivela {
-    constructor(steps, elementCrank, maxHeight) {
+    constructor(steps, elementCrank, maxHeight, minLim, maxLim) {
       this.steps = steps; 
       this.lastCrankH = 0;
       this.countRolls = 0;
       this.elementCrank  = elementCrank;
       this.crankH = 0;
       this.maxHeight = maxHeight; // 20
+
+      //Lims 
+      this.maxLim = maxLim;
+      this.minLim = minLim;
     }
       roda(){
-        this.crankH = getCircleX(mapping(this.countRolls,0,this.steps,0,Math.PI*2),this.maxHeight);
+        if(this.countRolls>this.minLim && this.countRolls<this.maxLim){
+            this.crankH = getCircleX(mapping(this.countRolls,0,this.steps,0,Math.PI*2),this.maxHeight);
 
-        console.log("height:" + this.crankH);
+            console.log("height:" + this.crankH);
 
-        //dar a ilusão de rotação da
-        if(this.crankH<=0){
-            this.elementCrank.style.transform = ` translate(0,-100%) rotateX(180deg)`;
-            console.log("bbbb");
-        }else if(this.crankH>0){
-            console.log("aaaa");
-            this.elementCrank.style.transform = `translate(0,0) rotateX(0deg)`;
-        }
+            //dar a ilusão de rotação da
+            if(this.crankH<=0){
+                this.elementCrank.style.transform = ` translate(0,-100%) rotateX(180deg)`;
+                console.log("bbbb");
+            }else if(this.crankH>0){
+                console.log("aaaa");
+                this.elementCrank.style.transform = `translate(0,0) rotateX(0deg)`;
+            }
 
-        //Verificar se a alanvaca esta a em cima ou em baixo depois da rotação
-        this.dir = (this.lastCrankH - this.crankH); 
-        console.log("crank:" + this.dir);
+            //Verificar se a alanvaca esta a em cima ou em baixo depois da rotação
+            this.dir = (this.lastCrankH - this.crankH); 
+            console.log("crank:" + this.dir);
 
-        if(this.dir > 0){
-            this.elementCrank.style.zIndex = 0; 
-        }else{
-            this.elementCrank.style.zIndex = -5; 
-        }
+            if(this.dir > 0){
+                this.elementCrank.style.zIndex = 0; 
+            }else{
+                this.elementCrank.style.zIndex = -5; 
+            }
 
-        //Atribuir last crankH
-        this.lastCrankH = this.crankH;
-        //tamanho da alanvanca
-        this.elementCrank.style.height = `${Math.abs(this.crankH)}%`;
+            //Atribuir last crankH
+            this.lastCrankH = this.crankH;
+            //tamanho da alanvanca
+            this.elementCrank.style.height = `${Math.abs(this.crankH)}%`;
+       }
         
       }
 
