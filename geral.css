@@ -8,6 +8,12 @@ html{
   /*animation: vLuz ease-in-out 3s infinite;*/
 }
 
+@font-face {
+  font-family: BebasNeue;
+  src: url(/Fonts/BebasNeue/BebasNeue-Regular.ttf);
+  font-weight:regular;
+}
+
 body{
   background-color: black;
   position: relative;
